@@ -14,7 +14,7 @@
     <meta property="og:description" content="Untold Archive — каталог авторских сайтов: перевал Дятлова, Амелия Эрхарт, «Мария Целеста», дело Кеннеди, Атлантида, атлас Вселенной, «Интерстеллар», «Аватар», «Лабиринт Фавна» и дело «Lil Miss»." />
     <meta property="og:url" content="https://untoldarchive.com/" />
     <meta property="og:locale" content="en_US" />
-    
+
     <link rel="alternate" hreflang="en" href="https://untoldarchive.com/" />
     <link rel="alternate" hreflang="de" href="https://untoldarchive.com/de/" />
     <link rel="alternate" hreflang="fr" href="https://untoldarchive.com/fr/" />
@@ -47,6 +47,237 @@
     </script>
 
     <link rel="stylesheet" href="https://untoldarchive.com/en/assets/style.css" />
+
+    <!-- ============================================================
+         БИБЛИОТЕКА — стили нового блока (самодостаточные)
+         ============================================================ -->
+    <style>
+      .library{
+        --lib-accent:#ff5a36;
+        --lib-mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+        --lib-cond:'Sofia Sans Extra Condensed','Golos Text',system-ui,sans-serif;
+        --lib-body:'Golos Text',system-ui,sans-serif;
+      }
+      html[data-theme='dark'] .library{
+        --lib-bg:#131417;
+        --lib-card:#1a1c21;
+        --lib-card-hover:#212429;
+        --lib-text:#ece9e2;
+        --lib-muted:#96938b;
+        --lib-line:#2b2d33;
+        --lib-soft:#22242a;
+      }
+      html[data-theme='light'] .library{
+        --lib-bg:#e9e7df;
+        --lib-card:#f4f3ee;
+        --lib-card-hover:#fcfbf7;
+        --lib-text:#191917;
+        --lib-muted:#6f6d66;
+        --lib-line:#d6d3c9;
+        --lib-soft:#e2e0d7;
+      }
+
+      .library{
+        background:var(--lib-bg);
+        padding:clamp(56px,8vw,104px) 0 clamp(64px,9vw,120px);
+        border-top:1px solid var(--lib-line);
+        color:var(--lib-text);
+        font-family:var(--lib-body);
+      }
+
+      /* ---------- шапка раздела ---------- */
+      .lib-head{ margin-bottom:clamp(36px,5vw,64px); }
+      .lib-title{
+        display:flex; align-items:center; gap:14px;
+        margin:0 0 14px;
+        font:800 clamp(34px,5vw,52px)/0.95 var(--lib-cond);
+        text-transform:uppercase; letter-spacing:.02em;
+        color:var(--lib-text);
+      }
+      .lib-bar{
+        display:inline-block; width:34px; height:14px; flex:none;
+        background:var(--lib-accent); border-radius:2px;
+      }
+      .lib-sub{
+        margin:0; max-width:56ch;
+        font:400 15px/1.6 var(--lib-body);
+        color:var(--lib-muted);
+      }
+
+      /* ---------- заголовок блока ---------- */
+      .lib-block + .lib-block{ margin-top:clamp(44px,6vw,72px); }
+      .lib-block__head{
+        display:flex; align-items:flex-end; gap:clamp(16px,2.5vw,28px);
+        margin-bottom:clamp(20px,3vw,28px);
+        padding-bottom:18px;
+        border-bottom:2px solid var(--lib-line);
+      }
+      .lib-block__num{
+        flex:none;
+        font:800 clamp(52px,7vw,84px)/0.8 var(--lib-cond);
+        color:transparent;
+        -webkit-text-stroke:1.5px var(--lib-accent);
+        letter-spacing:.02em;
+        transform:translateY(6px);
+      }
+      .lib-block__cap{ flex:1; min-width:0; }
+      .lib-block__title{
+        margin:0 0 6px;
+        font:800 clamp(22px,3vw,30px)/1 var(--lib-cond);
+        text-transform:uppercase; letter-spacing:.04em;
+        color:var(--lib-text);
+      }
+      .lib-block__title em{
+        font-style:normal; color:var(--lib-accent);
+      }
+      .lib-block__note{
+        margin:0; max-width:64ch;
+        font:400 13.5px/1.55 var(--lib-body);
+        color:var(--lib-muted);
+      }
+      .lib-block__tag{
+        flex:none;
+        font:500 11px/1 var(--lib-mono);
+        letter-spacing:.14em; text-transform:uppercase;
+        color:var(--lib-muted);
+        padding:8px 12px;
+        border:1px solid var(--lib-line);
+        border-radius:999px;
+        background:var(--lib-soft);
+        white-space:nowrap;
+      }
+
+      /* ---------- блок 01: карточки ---------- */
+      .lib-grid{
+        list-style:none; margin:0; padding:0;
+        display:grid;
+        grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+        gap:12px;
+      }
+      .lib-card{
+        position:relative; overflow:hidden;
+        display:flex; align-items:center; gap:14px;
+        height:100%;
+        padding:16px 16px 16px 18px;
+        background:var(--lib-card);
+        border:1px solid var(--lib-line);
+        border-radius:14px;
+        color:var(--lib-text);
+        text-decoration:none;
+        transition:transform .18s ease,border-color .18s ease,background .18s ease,box-shadow .18s ease;
+      }
+      .lib-card::before{
+        content:""; position:absolute; left:0; top:0; bottom:0; width:3px;
+        background:var(--hue,var(--lib-accent));
+        opacity:0; transition:opacity .18s ease;
+      }
+      .lib-card:hover,
+      .lib-card:focus-visible{
+        transform:translateY(-3px);
+        background:var(--lib-card-hover);
+        border-color:color-mix(in srgb,var(--hue,var(--lib-accent)) 45%,var(--lib-line));
+        box-shadow:0 10px 24px -14px rgba(0,0,0,.55);
+      }
+      .lib-card:hover::before,
+      .lib-card:focus-visible::before{ opacity:1; }
+      .lib-card__code{
+        flex:none;
+        display:grid; place-items:center;
+        width:42px; height:42px;
+        border-radius:10px;
+        font:500 12px/1 var(--lib-mono);
+        letter-spacing:.08em;
+        color:var(--hue,var(--lib-accent));
+        background:color-mix(in srgb,var(--hue,var(--lib-accent)) 16%,transparent);
+        border:1px solid color-mix(in srgb,var(--hue,var(--lib-accent)) 30%,transparent);
+      }
+      .lib-card__body{ flex:1; min-width:0; display:flex; flex-direction:column; gap:3px; }
+      .lib-card__kicker{
+        font:500 10px/1 var(--lib-mono);
+        letter-spacing:.16em; text-transform:uppercase;
+        color:var(--lib-muted);
+      }
+      .lib-card__name{
+        font:600 14.5px/1.3 var(--lib-body);
+        color:var(--lib-text);
+      }
+      .lib-card__arrow{
+        flex:none; width:16px; height:16px;
+        fill:none; stroke:var(--lib-muted);
+        stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round;
+        transition:transform .18s ease,stroke .18s ease;
+      }
+      .lib-card:hover .lib-card__arrow{
+        transform:translateX(4px);
+        stroke:var(--hue,var(--lib-accent));
+      }
+
+      /* ---------- блок 02: короткие очерки ---------- */
+      .lib-list{
+        list-style:none; margin:0; padding:0;
+        display:grid;
+        grid-template-columns:repeat(auto-fill,minmax(330px,1fr));
+        column-gap:clamp(20px,3.5vw,48px);
+      }
+      .lib-row{
+        display:flex; align-items:center; gap:12px;
+        padding:11px 6px;
+        border-bottom:1px dashed var(--lib-line);
+        color:var(--lib-text);
+        text-decoration:none;
+        transition:background .15s ease,border-color .15s ease,padding-left .15s ease;
+      }
+      .lib-row:hover,
+      .lib-row:focus-visible{
+        background:var(--lib-card);
+        border-bottom-color:color-mix(in srgb,var(--hue,var(--lib-accent)) 45%,var(--lib-line));
+        padding-left:12px;
+      }
+      .lib-row__idx{
+        flex:none; width:26px;
+        font:500 11px/1 var(--lib-mono);
+        color:var(--lib-muted);
+        letter-spacing:.06em;
+      }
+      .lib-row__body{ flex:1; min-width:0; display:flex; align-items:center; gap:10px; }
+      .lib-row__name{
+        flex:1; min-width:0;
+        font:500 14px/1.35 var(--lib-body);
+        color:var(--lib-text);
+      }
+      .lib-row__code{
+        flex:none;
+        font:500 10px/1 var(--lib-mono);
+        letter-spacing:.1em;
+        color:var(--hue,var(--lib-accent));
+        padding:4px 7px;
+        border-radius:6px;
+        background:color-mix(in srgb,var(--hue,var(--lib-accent)) 13%,transparent);
+        border:1px solid color-mix(in srgb,var(--hue,var(--lib-accent)) 26%,transparent);
+      }
+      .lib-row__arrow{
+        flex:none; width:14px; height:14px;
+        fill:none; stroke:var(--lib-muted);
+        stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round;
+        opacity:0; transform:translateX(-4px);
+        transition:opacity .15s ease,transform .15s ease,stroke .15s ease;
+      }
+      .lib-row:hover .lib-row__arrow,
+      .lib-row:focus-visible .lib-row__arrow{
+        opacity:1; transform:translateX(0);
+        stroke:var(--hue,var(--lib-accent));
+      }
+
+      @media (max-width:640px){
+        .lib-block__head{ flex-wrap:wrap; align-items:flex-start; }
+        .lib-block__tag{ order:-1; margin-left:auto; }
+        .lib-block__num{ transform:none; }
+        .lib-list{ grid-template-columns:1fr; }
+      }
+      @media (prefers-reduced-motion:reduce){
+        .library *{ transition:none !important; }
+      }
+    </style>
   </head>
   <body>
     <a class="skip-link" href="#catalog">Перейти к каталогу</a>
@@ -59,6 +290,7 @@
 
         <nav class="top__nav" aria-label="Разделы страницы">
           <a href="#catalog">Каталог</a>
+          <a href="#library">Библиотека</a>
           <a href="#soon">В подготовке</a>
           <a href="#about">О проекте</a>
         </nav>
@@ -193,6 +425,84 @@
         </div>
       </section>
 
+      <!-- ============================= Библиотека ============================= -->
+      <section class="library" id="library" aria-labelledby="libraryTitle">
+        <div class="wrap">
+          <div class="lib-head">
+            <h2 class="lib-title" id="libraryTitle"><i class="lib-bar" aria-hidden="true"></i>Библиотека</h2>
+            <p class="lib-sub">Два раздела: полные каталоги целостных произведений и уже готовые короткие очерки. Каждая ссылка ведёт на отдельный сайт-каталог.</p>
+          </div>
+
+          <!-- -------- 01 · Целостные произведения -------- -->
+          <div class="lib-block">
+            <header class="lib-block__head">
+              <span class="lib-block__num" aria-hidden="true">01</span>
+              <div class="lib-block__cap">
+                <h3 class="lib-block__title">Целостные <em>произведения</em></h3>
+                <p class="lib-block__note">Полные каталоги национальных литератур — собрания целостных произведений: романы, повести, поэмы от классики до редких страниц.</p>
+              </div>
+              <span class="lib-block__tag">13 каталогов</span>
+            </header>
+
+            <ul class="lib-grid">
+              <li><a class="lib-card" href="https://untoldarchive.com/libru/" style="--hue:#e0475c"><span class="lib-card__code" aria-hidden="true">RU</span><span class="lib-card__body"><span class="lib-card__kicker">каталог</span><span class="lib-card__name">Русская литература</span></span><svg class="lib-card__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+              <li><a class="lib-card" href="https://untoldarchive.com/catalog-spain-ru" style="--hue:#e6b450"><span class="lib-card__code" aria-hidden="true">ES</span><span class="lib-card__body"><span class="lib-card__kicker">каталог</span><span class="lib-card__name">Испанская литература</span></span><svg class="lib-card__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+              <li><a class="lib-card" href="https://untoldarchive.com/catalog-germany-ru" style="--hue:#a9c4ff"><span class="lib-card__code" aria-hidden="true">DE</span><span class="lib-card__body"><span class="lib-card__kicker">каталог</span><span class="lib-card__name">Немецкая литература</span></span><svg class="lib-card__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+              <li><a class="lib-card" href="https://untoldarchive.com/catalog-england-ru" style="--hue:#4fc3f7"><span class="lib-card__code" aria-hidden="true">EN</span><span class="lib-card__body"><span class="lib-card__kicker">каталог</span><span class="lib-card__name">Английская литература</span></span><svg class="lib-card__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+              <li><a class="lib-card" href="https://untoldarchive.com/catalog-sweden-ru" style="--hue:#6fc7b8"><span class="lib-card__code" aria-hidden="true">SV</span><span class="lib-card__body"><span class="lib-card__kicker">каталог</span><span class="lib-card__name">Шведская литература</span></span><svg class="lib-card__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+              <li><a class="lib-card" href="https://untoldarchive.com/catalog-czech-ru" style="--hue:#f29bb7"><span class="lib-card__code" aria-hidden="true">CS</span><span class="lib-card__body"><span class="lib-card__kicker">каталог</span><span class="lib-card__name">Чешская литература</span></span><svg class="lib-card__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+              <li><a class="lib-card" href="https://untoldarchive.com/catalog-finland-ru" style="--hue:#bfe3ff"><span class="lib-card__code" aria-hidden="true">FI</span><span class="lib-card__body"><span class="lib-card__kicker">каталог</span><span class="lib-card__name">Финская литература</span></span><svg class="lib-card__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+              <li><a class="lib-card" href="https://untoldarchive.com/catalog-estonia-ru" style="--hue:#9cc069"><span class="lib-card__code" aria-hidden="true">ET</span><span class="lib-card__body"><span class="lib-card__kicker">каталог</span><span class="lib-card__name">Эстонская литература</span></span><svg class="lib-card__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+              <li><a class="lib-card" href="https://untoldarchive.com/catalog-norway-ru" style="--hue:#f4a261"><span class="lib-card__code" aria-hidden="true">NO</span><span class="lib-card__body"><span class="lib-card__kicker">каталог</span><span class="lib-card__name">Норвежская литература</span></span><svg class="lib-card__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+              <li><a class="lib-card" href="https://untoldarchive.com/catalog-latvia-ru" style="--hue:#b58cff"><span class="lib-card__code" aria-hidden="true">LV</span><span class="lib-card__body"><span class="lib-card__kicker">каталог</span><span class="lib-card__name">Латвийская литература</span></span><svg class="lib-card__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+              <li><a class="lib-card" href="https://untoldarchive.com/catalog-lithuania-ru" style="--hue:#f2c879"><span class="lib-card__code" aria-hidden="true">LT</span><span class="lib-card__body"><span class="lib-card__kicker">каталог</span><span class="lib-card__name">Литовская литература</span></span><svg class="lib-card__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+              <li><a class="lib-card" href="https://untoldarchive.com/catalog-bulgaria-ru" style="--hue:#d9d2c3"><span class="lib-card__code" aria-hidden="true">BG</span><span class="lib-card__body"><span class="lib-card__kicker">каталог</span><span class="lib-card__name">Болгарская литература</span></span><svg class="lib-card__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+              <li><a class="lib-card" href="https://untoldarchive.com/catalog-moldova-ru" style="--hue:#2ee6d6"><span class="lib-card__code" aria-hidden="true">MD</span><span class="lib-card__body"><span class="lib-card__kicker">каталог</span><span class="lib-card__name">Молдавская литература</span></span><svg class="lib-card__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+            </ul>
+          </div>
+
+          <!-- -------- 02 · Короткие очерки -------- -->
+          <div class="lib-block">
+            <header class="lib-block__head">
+              <span class="lib-block__num" aria-hidden="true">02</span>
+              <div class="lib-block__cap">
+                <h3 class="lib-block__title">Короткие <em>очерки</em></h3>
+                <p class="lib-block__note">Уже готовые подборки коротких очерков — небольшие тексты для быстрого чтения, собранные по языкам и странам.</p>
+              </div>
+              <span class="lib-block__tag">25 каталогов</span>
+            </header>
+
+            <ul class="lib-list">
+              <li><a class="lib-row" href="https://untoldarchive.com/french-literature-catalog-ru" style="--hue:#e6b450"><span class="lib-row__idx" aria-hidden="true">01</span><span class="lib-row__body"><span class="lib-row__name">Французская классическая литература</span><span class="lib-row__code">FR</span></span><svg class="lib-row__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+              <li><a class="lib-row" href="https://untoldarchive.com/russian-literature-catalog" style="--hue:#e0475c"><span class="lib-row__idx" aria-hidden="true">02</span><span class="lib-row__body"><span class="lib-row__name">Русская классическая литература</span><span class="lib-row__code">RU</span></span><svg class="lib-row__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+              <li><a class="lib-row" href="https://untoldarchive.com/lib-catalog-ru/belarusian-literature-catalog-ru/" style="--hue:#9cc069"><span class="lib-row__idx" aria-hidden="true">03</span><span class="lib-row__body"><span class="lib-row__name">Белорусская литература</span><span class="lib-row__code">BY</span></span><svg class="lib-row__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+              <li><a class="lib-row" href="https://untoldarchive.com/lib-catalog-ru/flemish-literature-catalog-ru" style="--hue:#f4a261"><span class="lib-row__idx" aria-hidden="true">04</span><span class="lib-row__body"><span class="lib-row__name">Фламандская литература</span><span class="lib-row__code">VL</span></span><svg class="lib-row__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+              <li><a class="lib-row" href="https://untoldarchive.com/lib-catalog-ru/korean-literature-catalog-ru/" style="--hue:#b58cff"><span class="lib-row__idx" aria-hidden="true">05</span><span class="lib-row__body"><span class="lib-row__name">Корейская литература</span><span class="lib-row__code">KO</span></span><svg class="lib-row__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+              <li><a class="lib-row" href="https://untoldarchive.com/lib-catalog-ru/armenian-literature-catalog-ru/" style="--hue:#f29bb7"><span class="lib-row__idx" aria-hidden="true">06</span><span class="lib-row__body"><span class="lib-row__name">Армянская литература</span><span class="lib-row__code">HY</span></span><svg class="lib-row__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+              <li><a class="lib-row" href="https://untoldarchive.com/lib-catalog-ru/georgian-literature-catalog-ru/" style="--hue:#e0475c"><span class="lib-row__idx" aria-hidden="true">07</span><span class="lib-row__body"><span class="lib-row__name">Грузинская литература</span><span class="lib-row__code">KA</span></span><svg class="lib-row__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+              <li><a class="lib-row" href="https://untoldarchive.com/lib-catalog-ru/montenegrin-literature-catalog-ru/" style="--hue:#6fc7b8"><span class="lib-row__idx" aria-hidden="true">08</span><span class="lib-row__body"><span class="lib-row__name">Черногорская литература</span><span class="lib-row__code">ME</span></span><svg class="lib-row__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+              <li><a class="lib-row" href="https://untoldarchive.com/lib-catalog-ru/breton-literature-catalog-ru/" style="--hue:#a9c4ff"><span class="lib-row__idx" aria-hidden="true">09</span><span class="lib-row__body"><span class="lib-row__name">Бретонская литература</span><span class="lib-row__code">BR</span></span><svg class="lib-row__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+              <li><a class="lib-row" href="https://untoldarchive.com/lib-catalog-ru/american-literature-catalog-ru/" style="--hue:#4fc3f7"><span class="lib-row__idx" aria-hidden="true">10</span><span class="lib-row__body"><span class="lib-row__name">Американская литература</span><span class="lib-row__code">US</span></span><svg class="lib-row__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+              <li><a class="lib-row" href="https://untoldarchive.com/lib-catalog-ru/romanian-literature-catalog-ru/" style="--hue:#e6b450"><span class="lib-row__idx" aria-hidden="true">11</span><span class="lib-row__body"><span class="lib-row__name">Румынская литература</span><span class="lib-row__code">RO</span></span><svg class="lib-row__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+              <li><a class="lib-row" href="https://untoldarchive.com/lib-catalog-ru/welsh-literature-catalog-ru/" style="--hue:#2ee6d6"><span class="lib-row__idx" aria-hidden="true">12</span><span class="lib-row__body"><span class="lib-row__name">Уэльская литература</span><span class="lib-row__code">CY</span></span><svg class="lib-row__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+              <li><a class="lib-row" href="https://untoldarchive.com/lib-catalog-ru/irish-literature-catalog-ru/" style="--hue:#4fc3f7"><span class="lib-row__idx" aria-hidden="true">13</span><span class="lib-row__body"><span class="lib-row__name">Ирландская литература</span><span class="lib-row__code">IE</span></span><svg class="lib-row__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+              <li><a class="lib-row" href="https://untoldarchive.com/lib-catalog-ru/serbian-literature-catalog-ru/" style="--hue:#bfe3ff"><span class="lib-row__idx" aria-hidden="true">14</span><span class="lib-row__body"><span class="lib-row__name">Сербская литература</span><span class="lib-row__code">SR</span></span><svg class="lib-row__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+              <li><a class="lib-row" href="https://untoldarchive.com/lib-catalog-ru/catalan-literature-catalog-ru/" style="--hue:#f4a261"><span class="lib-row__idx" aria-hidden="true">15</span><span class="lib-row__body"><span class="lib-row__name">Каталонская литература</span><span class="lib-row__code">CT</span></span><svg class="lib-row__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+              <li><a class="lib-row" href="https://untoldarchive.com/lib-catalog-ru/basque-literature-catalog-ru/" style="--hue:#d9d2c3"><span class="lib-row__idx" aria-hidden="true">16</span><span class="lib-row__body"><span class="lib-row__name">Баскская литература</span><span class="lib-row__code">EU</span></span><svg class="lib-row__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+              <li><a class="lib-row" href="https://untoldarchive.com/lib-catalog-ru/canadian-literature-catalog-ru/" style="--hue:#e0475c"><span class="lib-row__idx" aria-hidden="true">17</span><span class="lib-row__body"><span class="lib-row__name">Канадская литература</span><span class="lib-row__code">CA</span></span><svg class="lib-row__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+              <li><a class="lib-row" href="https://untoldarchive.com/lib-catalog-ru/ukrainian-literature-catalog-ru/" style="--hue:#bfe3ff"><span class="lib-row__idx" aria-hidden="true">18</span><span class="lib-row__body"><span class="lib-row__name">Украинская литература</span><span class="lib-row__code">UA</span></span><svg class="lib-row__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+              <li><a class="lib-row" href="https://untoldarchive.com/lib-catalog-ru/portuguese-literature-catalog-ru/" style="--hue:#6fc7b8"><span class="lib-row__idx" aria-hidden="true">19</span><span class="lib-row__body"><span class="lib-row__name">Португальская литература</span><span class="lib-row__code">PT</span></span><svg class="lib-row__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+              <li><a class="lib-row" href="https://untoldarchive.com/lib-catalog-ru/scottish-literature-catalog-ru/" style="--hue:#a9c4ff"><span class="lib-row__idx" aria-hidden="true">20</span><span class="lib-row__body"><span class="lib-row__name">Шотландская литература</span><span class="lib-row__code">SC</span></span><svg class="lib-row__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+              <li><a class="lib-row" href="https://untoldarchive.com/lib-catalog-ru/slovenian-literature-catalog-ru/" style="--hue:#9cc069"><span class="lib-row__idx" aria-hidden="true">21</span><span class="lib-row__body"><span class="lib-row__name">Словенская литература</span><span class="lib-row__code">SI</span></span><svg class="lib-row__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+              <li><a class="lib-row" href="https://untoldarchive.com/lib-catalog-ru/greek-literature-catalog-ru/" style="--hue:#4fc3f7"><span class="lib-row__idx" aria-hidden="true">22</span><span class="lib-row__body"><span class="lib-row__name">Греческая литература</span><span class="lib-row__code">GR</span></span><svg class="lib-row__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+              <li><a class="lib-row" href="https://untoldarchive.com/lib-catalog-ru/dutch-literature-catalog-ru/" style="--hue:#f2c879"><span class="lib-row__idx" aria-hidden="true">23</span><span class="lib-row__body"><span class="lib-row__name">Голландская литература</span><span class="lib-row__code">NL</span></span><svg class="lib-row__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+              <li><a class="lib-row" href="https://untoldarchive.com/lib-catalog-ru/polish-literature-catalog-ru/" style="--hue:#e6b450"><span class="lib-row__idx" aria-hidden="true">24</span><span class="lib-row__body"><span class="lib-row__name">Польская классическая литература</span><span class="lib-row__code">PL</span></span><svg class="lib-row__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+              <li><a class="lib-row" href="https://untoldarchive.com/lib-catalog-ru/japanese-literature-catalog-ru/" style="--hue:#f29bb7"><span class="lib-row__idx" aria-hidden="true">25</span><span class="lib-row__body"><span class="lib-row__name">Японская литература</span><span class="lib-row__code">JA</span></span><svg class="lib-row__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
       <!-- =========================== В подготовке =========================== -->
       <section class="soon" id="soon" aria-labelledby="soonTitle">
         <div class="wrap soon__inner">
@@ -221,54 +531,6 @@
           <div class="about__text">
             <p class="about__lead">Untold Archive — коллекция сайтов об историях, в которых до сих пор не поставлена точка, и о мирах, в которые хочется вернуться.</p>
             <p>Одна тема — один сайт. Эта страница служит указателем: найдите материал по названию, разделу или времени событий и переходите к чтению. Клавиша <kbd>/</kbd> сразу ставит курсор в поиск.</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="about">
-        <div class="wrap about__inner">
-          <div class="about__text">
-            <p>
-              <a href="https://untoldarchive.com/libru/">Каталог русской литературы</a><br>
-              <a href="https://untoldarchive.com/catalog-spain-ru">Каталог испанской литературы</a><br>
-              <a href="https://untoldarchive.com/catalog-germany-ru">Каталог немецкой литературы</a><br>
-              <a href="https://untoldarchive.com/catalog-england-ru">Каталог английской литературы</a><br>
-              <a href="https://untoldarchive.com/catalog-sweden-ru">Каталог шведской литературы</a><br>
-              <a href="https://untoldarchive.com/catalog-czech-ru">Каталог чешской литературы</a><br>
-              <a href="https://untoldarchive.com/catalog-finland-ru">Каталог финской литературы</a><br>
-              <a href="https://untoldarchive.com/catalog-estonia-ru">Каталог эстонской литературы</a><br>
-              <a href="https://untoldarchive.com/catalog-norway-ru">Каталог норвежской литературы</a><br>
-              <a href="https://untoldarchive.com/catalog-latvia-ru">Каталог латвийской литературы</a><br>
-              <a href="https://untoldarchive.com/catalog-lithuania-ru">Каталог литовской литературы</a><br>
-              <a href="https://untoldarchive.com/catalog-bulgaria-ru">Каталог болгарской литературы</a><br>
-              <a href="https://untoldarchive.com/catalog-moldova-ru">Каталог молдавской литературы</a><br>
-<br><br><br>
-              <a href="https://untoldarchive.com/french-literature-catalog-ru">Каталог французской классической литературы</a><br>
-              <a href="https://untoldarchive.com/russian-literature-catalog">Каталог русской классической литературы</a><br>
-              <a href="https://untoldarchive.com/lib-catalog-ru/belarusian-literature-catalog-ru/">Каталог белорусской литературы</a><br>
-              <a href="https://untoldarchive.com/lib-catalog-ru/flemish-literature-catalog-ru">Каталог фламандской литературы</a><br>
-              <a href="https://untoldarchive.com/lib-catalog-ru/korean-literature-catalog-ru/">Каталог корейской литературы</a><br>
-              <a href="https://untoldarchive.com/lib-catalog-ru/armenian-literature-catalog-ru/">Каталог армянской литературы</a><br>
-              <a href="https://untoldarchive.com/lib-catalog-ru/georgian-literature-catalog-ru/">Каталог грузинской литературы</a><br>
-              <a href="https://untoldarchive.com/lib-catalog-ru/montenegrin-literature-catalog-ru/">Каталог черногорской литературы</a><br>
-              <a href="https://untoldarchive.com/lib-catalog-ru/breton-literature-catalog-ru/">Каталог бретонской литературы</a><br>
-              <a href="https://untoldarchive.com/lib-catalog-ru/american-literature-catalog-ru/">Каталог американской литературы</a><br>
-              <a href="https://untoldarchive.com/lib-catalog-ru/romanian-literature-catalog-ru/">Каталог румынской литературы</a><br>
-              <a href="https://untoldarchive.com/lib-catalog-ru/welsh-literature-catalog-ru/">Каталог уэльской литературы</a><br>
-              <a href="https://untoldarchive.com/lib-catalog-ru/irish-literature-catalog-ru/">Каталог ирландской литературы</a><br>
-              <a href="https://untoldarchive.com/lib-catalog-ru/serbian-literature-catalog-ru/">Каталог сербской литературы</a><br>
-              <a href="https://untoldarchive.com/lib-catalog-ru/catalan-literature-catalog-ru/">Каталог каталонской литературы</a><br>
-              <a href="https://untoldarchive.com/lib-catalog-ru/basque-literature-catalog-ru/">Каталог баскской литературы</a><br>
-              <a href="https://untoldarchive.com/lib-catalog-ru/canadian-literature-catalog-ru/">Каталог канадской литературы</a><br>
-              <a href="https://untoldarchive.com/lib-catalog-ru/ukrainian-literature-catalog-ru/">Каталог украинской литературы</a><br>
-              <a href="https://untoldarchive.com/lib-catalog-ru/portuguese-literature-catalog-ru/">Каталог португальской литературы</a><br>
-              <a href="https://untoldarchive.com/lib-catalog-ru/scottish-literature-catalog-ru/">Каталог шотландской литературы</a><br>
-              <a href="https://untoldarchive.com/lib-catalog-ru/slovenian-literature-catalog-ru/">Каталог словенской литературы</a><br>
-              <a href="https://untoldarchive.com/lib-catalog-ru/greek-literature-catalog-ru/">Каталог греческой литературы</a><br>
-              <a href="https://untoldarchive.com/lib-catalog-ru/dutch-literature-catalog-ru/">Каталог голландской литературы</a><br>
-              <a href="https://untoldarchive.com/lib-catalog-ru/polish-literature-catalog-ru/">Каталог польской классической литературы</a><br>
-              <a href="https://untoldarchive.com/lib-catalog-ru/japanese-literature-catalog-ru/">Каталог японской литературы</a>
-            </p>
           </div>
         </div>
       </section>
